@@ -5,6 +5,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "dev:web": "bunx turbo dev --filter=web",
+    "dev:api": "bunx turbo dev --filter=api",
     "dev:dashboard": "bunx turbo dev --filter=dashboard",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
