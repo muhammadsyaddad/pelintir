@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "uv run uvicorn app.main:app --reload --port 8000",
-    "build": "echo 'No build needed for Python API'"
+    "lint": "uv run ruff check . && uv run ruff format --check .",
+    "test": "uv run pytest",
+    "migrate": "uv run python migrations/apply.py"
   }
 }

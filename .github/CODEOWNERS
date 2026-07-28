@@ -1,0 +1,12 @@
+# Legal- and reputation-sensitive documentation requires owner review.
+# These files are what keep the project defensible; they are not ordinary docs.
+#
+# Replace @OWNER with the GitHub handle (or team) before making this repository public —
+# an unresolvable CODEOWNERS entry silently reviews nothing.
+
+/docs/data/                 @OWNER
+/docs/methodology/          @OWNER
+/docs/adr/                  @OWNER
+/docs/editorial-policy.md   @OWNER
+/SECURITY.md                @OWNER
+/LICENSE                    @OWNER

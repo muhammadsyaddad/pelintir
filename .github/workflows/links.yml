@@ -1,0 +1,48 @@
+name: External links
+
+# Weekly, never on a pull request.
+#
+# Most external links here point at LKPP, INAPROC, BPS and JDIH. Those hosts go down,
+# rate-limit, and serve interstitials. Blocking a merge because a government site is
+# having a bad afternoon would train everyone to ignore the check.
+#
+# Internal links are a different matter: they are checked on every run by
+# packages/pipeline/tests/test_docs_contract.py, which is fast and deterministic.
+
+on:
+  schedule:
+    - cron: "0 3 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  lychee:
+    name: Check external links
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: lycheeverse/lychee-action@v2
+        id: lychee
+        with:
+          args: >-
+            --no-progress
+            --max-concurrency 4
+            --timeout 30
+            --retry-wait-time 10
+            --max-retries 2
+            --accept 200,206,403,429
+            --exclude-path node_modules
+            --exclude-path .venv
+            "**/*.md"
+          fail: false
+
+      - if: steps.lychee.outputs.exit_code != 0
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Broken external links in documentation"
+          content-filepath: ./lychee/out.md
+          labels: documentation

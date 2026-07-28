@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(bun install)",
+      "Bash(bun install --frozen-lockfile)",
+      "Bash(bun run:*)",
+      "Bash(bunx turbo:*)",
+      "Bash(uv sync:*)",
+      "Bash(uv run:*)",
+      "Bash(uv lock)",
+      "Bash(ruff:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(rg:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(docker compose logs:*)"
+    ],
+    "ask": [
+      "Bash(uv add:*)",
+      "Bash(bun add:*)",
+      "Bash(git push:*)",
+      "Bash(docker compose down:*)"
+    ],
+    "deny": [
+      "Bash(npm:*)",
+      "Bash(pnpm:*)",
+      "Bash(yarn:*)",
+      "WebFetch(domain:katalog.inaproc.id)",
+      "WebFetch(domain:data.inaproc.id)",
+      "WebFetch(domain:e-katalog.lkpp.go.id)",
+      "Bash(curl *inaproc*)",
+      "Bash(wget *inaproc*)",
+      "Read(./.env)",
+      "Read(./**/.env)",
+      "Bash(rm -rf:*)"
+    ]
+  }
+}
