@@ -1,0 +1,32 @@
+id_paket,tahun,instansi,penyedia,nama_paket,no,uraian,satuan,volume,harga_satuan,total
+PKT-2023-001,2023,Dinas Pendidikan Kota Bandung,PT. Anu Jaya,Pengadaan Laptop Guru,1,Laptop Lenovo ThinkPad E14 i5 8GB 512GB SSD,unit,10,12500000,125000000
+PKT-2023-001,2023,Dinas Pendidikan Kota Bandung,PT. Anu Jaya,Pengadaan Laptop Guru,2,Tas Laptop 14 inch,bh,10,150000,1500000
+PKT-2023-002,2023,Dinas Pendidikan Kota Bandung,PT ANU JAYA,Pengadaan Laptop Lab Komputer,1,Laptop ASUS VivoBook A416 i3 8GB 256GB,Unit,20,7800000,156000000
+PKT-2023-003,2023,Sekretariat Daerah Kabupaten Bogor,CV Sinar Terang,Belanja Modal Peralatan Kantor,1,Laptop Acer Aspire 5 Ryzen 5 8GB 512GB,UNIT,5,9200000,46000000
+PKT-2023-004,2023,Sekretariat Daerah Kabupaten Bogor,CV. Sinar Terang,Belanja Modal Peralatan Kantor,1,LAPTOP HP PROBOOK 440 G9 I5 16GB,unt,4,15400000,61600000
+PKT-2023-005,2023,Dinas Kesehatan Provinsi Jawa Barat,PT Maju Bersama,Pengadaan Perangkat IT,1,Laptop Dell Latitude 3420 i5 8GB,unit,8,13750000,110000000
+PKT-2023-006,2023,Dinas Kesehatan Provinsi Jawa Barat,PT Maju Bersama,Pengadaan Perangkat IT,2,Laptop Apple MacBook Air M2 8GB 256GB,unit,2,18900000,37800000
+PKT-2023-007,2023,Badan Kepegawaian Daerah Kota Surabaya,UD Terang Abadi,Pengadaan Laptop Pimpinan,1,Laptop Asus ZenBook 14 OLED i7 16GB,unit,3,21000000,63000000
+PKT-2023-008,2023,Badan Kepegawaian Daerah Kota Surabaya,UD Terang Abadi,Pengadaan Laptop Pimpinan,2,Laptop MSI Modern 14 i5 8GB,unit,6,11200000,67200000
+PKT-2023-009,2023,Dinas Perhubungan Kota Semarang,PT Cahaya Nusantara,Pengadaan Sarana Kantor,1,Laptop Lenovo IdeaPad Slim 3 Ryzen 3 8GB,unit,12,6900000,82800000
+PKT-2023-010,2023,Dinas Perhubungan Kota Semarang,PT Cahaya Nusantara,Pengadaan Sarana Kantor,2,Laptop Toshiba Satellite Pro C50 i5,unit,4,10500000,42000000
+PKT-2023-011,2023,Inspektorat Kabupaten Sleman,CV Karya Utama,Pengadaan Laptop Auditor,1,Laptop Premium Spesifikasi Khusus Auditor,unit,2,187000000,374000000
+PKT-2023-012,2023,Inspektorat Kabupaten Sleman,CV Karya Utama,Pengadaan Laptop Auditor,2,Laptop HP EliteBook 840 G9 i7 16GB,unit,5,22400000,112000000
+PKT-2023-013,2023,Dinas Sosial Kota Malang,PT Anu Jaya Abadi,Pengadaan Mebeler Kantor,1,Kursi Kerja Staff Kain Jaring Hidrolik,buah,40,850000,34000000
+PKT-2023-014,2023,Dinas Sosial Kota Malang,PT Anu Jaya Abadi,Pengadaan Mebeler Kantor,2,Kursi Kerja Direktur Kulit Sandaran Tinggi,buah,4,3200000,12800000
+PKT-2023-015,2023,Dinas Pendidikan Kota Bandung,CV Sinar Terang,Pengadaan Mebeler Sekolah,1,Kursi Kerja Guru Busa Standar,bh,120,620000,74400000
+PKT-2023-016,2023,Sekretariat Daerah Kabupaten Bogor,PT Maju Bersama,Pengadaan Mebeler,1,Kursi Kerja Rapat Stackable,buah,60,745000,44700000
+PKT-2023-017,2023,Badan Kepegawaian Daerah Kota Surabaya,CV Karya Utama,Pengadaan Mebeler,1,Kursi Kerja Ergonomis Impor,buah,10,9800000,98000000
+PKT-2023-018,2023,Dinas Perhubungan Kota Semarang,UD Terang Abadi,Pengadaan Mebeler,1,Kursi Kerja Staff Standar,pcs,25,780000,19500000
+PKT-2023-019,2023,Dinas Kesehatan Provinsi Jawa Barat,PT Cahaya Nusantara,Pengadaan Mebeler,1,Meja Kerja Staff 120x60,buah,25,1450000,36250000
+PKT-2023-020,2023,Dinas Sosial Kota Malang,PT Cahaya Nusantara,Pengadaan Perangkat Cetak,1,Printer Epson L3210 All In One,unit,6,2350000,14100000
+PKT-2023-021,2023,Inspektorat Kabupaten Sleman,PT Maju Bersama,Pengadaan Perangkat Cetak,1,Printer Canon Pixma G2010,unit,4,2150000,8600000
+PKT-2023-022,2023,Dinas Pendidikan Kota Bandung,PT Anu Jaya,Pengadaan Perangkat Cetak,1,Printer Brother DCP T520W,unit,3,2680000,8040000
+PKT-2023-023,2023,Dinas Perhubungan Kota Semarang,CV Sinar Terang,Belanja ATK,1,Kertas HVS A4 80 gram,rim,200,58000,11600000
+PKT-2023-024,2023,Dinas Sosial Kota Malang,CV Sinar Terang,Belanja ATK,2,Kertas HVS F4 70 gram,rim,150,54000,8100000
+PKT-2023-025,2023,Sekretariat Daerah Kabupaten Bogor,UD Terang Abadi,Pengadaan Laptop Cadangan,1,Laptop Axioo Mybook 14 Celeron 4GB,unit,0,4200000,0
+PKT-2023-026,2023,Sekretariat Daerah Kabupaten Bogor,UD Terang Abadi,Pengadaan Laptop Cadangan,2,Laptop Advan Workpro i3 8GB,unit,3,,20100000
+PKT-2023-027,2023,Inspektorat Kabupaten Sleman,PT Anu Jaya,Pengadaan Jasa,1,,paket,1,25000000,25000000
+PKT-2022-001,2022,Dinas Pendidikan Kota Bandung,PT Anu Jaya,Pengadaan Laptop Guru 2022,1,Laptop Lenovo V14 i3 4GB,unit,15,6400000,96000000
+PKT-2022-002,2022,Dinas Kesehatan Provinsi Jawa Barat,PT Maju Bersama,Pengadaan Laptop 2022,1,Laptop Asus X441 Celeron 4GB,unit,10,4950000,49500000
+PKT-2022-003,2022,Dinas Sosial Kota Malang,CV Sinar Terang,Pengadaan Mebeler 2022,1,Kursi Kerja Staff Standar,buah,50,590000,29500000

@@ -1,0 +1,9 @@
+{
+  "name": "pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "lint": "uv run ruff check . && uv run ruff format --check .",
+    "test": "uv run pytest"
+  }
+}

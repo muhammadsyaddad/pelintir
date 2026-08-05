@@ -1,0 +1,44 @@
+# Stateful dependencies for local development only.
+# The API and the Next.js apps still run through turbo (`bun run dev`).
+#
+# Ports bind to 127.0.0.1 so nothing here is reachable from the network.
+
+services:
+  postgres:
+    # Swap to pgvector/pgvector:pg16 once embeddings land — same major, same data dir.
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-pelintir}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pelintir}
+      POSTGRES_DB: ${POSTGRES_DB:-pelintir}
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-pelintir} -d ${POSTGRES_DB:-pelintir}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.13
+    environment:
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:-masterKey}
+      MEILI_ENV: development
+      MEILI_NO_ANALYTICS: "true"
+    ports:
+      - "127.0.0.1:${MEILI_PORT:-7700}:7700"
+    volumes:
+      - meili-data:/meili_data
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:7700/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres-data:
+  meili-data:

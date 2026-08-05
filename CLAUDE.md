@@ -1,0 +1,3 @@
+# Pelintir
+
+@AGENTS.md
