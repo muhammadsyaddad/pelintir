@@ -42,8 +42,12 @@ __pycache__/
 .ipynb_checkpoints/
 *.egg-info
 
-# Data lake — raw and derived data never belongs in git
+# Data lake — raw and derived data never belongs in git.
+# The unanchored pattern catches the lake wherever it lands (repo root,
+# packages/pipeline/data/, …); docs/data/ is documentation, not data, so it is
+# explicitly kept.
 data/
+!docs/data/
 *.parquet
 *.duckdb
 

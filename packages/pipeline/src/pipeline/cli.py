@@ -9,11 +9,16 @@ from pathlib import Path
 
 from pipeline import benchmark as bench
 from pipeline import normalize, raw, settings
-from pipeline.sources import LocalCsvSource
+from pipeline.sources import LocalCsvSource, OpentenderOcdsSource
+
+SOURCES = {
+    LocalCsvSource.name: LocalCsvSource,
+    OpentenderOcdsSource.name: OpentenderOcdsSource,
+}
 
 
 def cmd_ingest(args: argparse.Namespace) -> None:
-    source = LocalCsvSource(Path(args.source_dir))
+    source = SOURCES[args.source](Path(args.source_dir))
     path = raw.ingest(source, args.year, args.category)
     print(f"raw written: {path}")
 
@@ -42,7 +47,15 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
 
     ingest = sub.add_parser("ingest", help="read a source and land raw Parquet")
-    ingest.add_argument("--from", dest="source_dir", required=True, help="directory of CSV files")
+    ingest.add_argument(
+        "--from", dest="source_dir", required=True, help="directory of source files"
+    )
+    ingest.add_argument(
+        "--source",
+        default=LocalCsvSource.name,
+        choices=sorted(SOURCES),
+        help="which adapter reads --from (default: local_csv)",
+    )
     ingest.add_argument("--year", type=int, required=True)
     ingest.add_argument("--category", default=None, help="substring filter on item description")
     ingest.set_defaults(func=cmd_ingest)

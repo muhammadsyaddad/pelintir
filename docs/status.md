@@ -12,7 +12,7 @@ other docs to hide a gap.
 
 **Infrastructure works end to end. No real data, no product UI.**
 
-`bun run lint`, `bun run test` (128 tests), `bun run check-types` and `bun run build` all pass. The API serves
+`bun run lint`, `bun run test` (139 tests), `bun run check-types` and `bun run build` all pass. The API serves
 `/health` against live Postgres and Meilisearch. The pipeline ingests CSV to Parquet, normalises with polars,
 and computes DuckDB benchmarks — on fixtures.
 
@@ -28,6 +28,13 @@ The milestone is not met until the same notebook runs over one real product cate
 The critical path beyond that is blocked on **data access**, not engineering —
 [ADR-0006](adr/0006-scrape-ekatalog-storefront.md).
 
+The data docs referenced across the repo now exist: [`data/legal-register.md`](data/legal-register.md) (the
+merge gate), [`data/sources.md`](data/sources.md), and [`data/access-requests.md`](data/access-requests.md).
+The `opentender-ocds` source is `attribution-required` (ODbL) in the register, so its adapter may run — but
+the highest-value unknown, whether opentender's OCDS award items carry unit prices, is **still unverified**:
+the environment blocks `opentender.net`, so no dump has been fetched. `scripts/check_ocds_fields.py` answers
+it in one run against a hand-downloaded dump.
+
 ---
 
 ## Commands
@@ -39,7 +46,7 @@ The critical path beyond that is blocked on **data access**, not engineering —
 | `bun run migrate` | works — idempotent, tracked in `schema_migrations` |
 | `bun run dev` | works — web :3000, dashboard :3001, api :8000 |
 | `bun run lint` | passes — eslint on JS workspaces, `ruff check` + `ruff format --check` on Python |
-| `bun run test` | passes — 91 pipeline tests, 2 api tests, 35 `packages/ui` vitest cases |
+| `bun run test` | passes — 102 pipeline tests, 2 api tests, 35 `packages/ui` vitest cases |
 | `bun run check-types` | passes |
 | `bun run build` | passes |
 | `bun run format` | works (prettier; no `.prettierrc`, so defaults apply) |
@@ -81,7 +88,9 @@ See [ADR-0008](adr/0008-plain-sql-migrations-over-alembic.md).
 | Module | State |
 |---|---|
 | `sources/base.py` | `Source` protocol + `RAW_SCHEMA` (13 typed columns) + `to_frame()` |
-| `sources/local_csv.py` | the one concrete adapter |
+| `sources/local_csv.py` | hand-downloaded CSV adapter |
+| `sources/opentender_ocds.py` | opentender.net OCDS bulk adapter. File-based (parses a downloaded dump; the network step is manual, like `local_csv`). Maps `awards[].items[]` to one raw record each; whether those items carry a `unit_price` is **unverified** — see [`data/sources.md`](data/sources.md) |
+| `scripts/check_ocds_fields.py` | investigation tool: reports how often a real OCDS dump populates `unit.value.amount` and `quantity`. Answers the unit-price question; not part of the shipped pipeline |
 | `raw.py` | `ingest`, `read_raw`, `write_normalized` — Parquet, append-only |
 | `normalize.py` | unit vocabulary (17 canonical units), ordered category rules, entity-name normalisation, brand extraction, price derivation, `reject_reason`, `split_usable` |
 | `benchmark.py` | runs `sql/benchmark.sql` over Parquet; `DEFAULT_MIN_GROUP_SIZE = 5` |
