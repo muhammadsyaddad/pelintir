@@ -2,41 +2,16 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/*
+ * The sidebar lives in `packages/ui`, which Tailwind reaches only through a
+ * node_modules symlink — and automatic source detection skips node_modules.
+ * Without this, utilities used only inside `@repo/ui` are never generated and
+ * the sidebar renders unstyled. Do NOT add a second `@source` for this app's
+ * own directory: that narrows the scan instead of widening it.
+ */
+@source "../../../packages/ui/src";
+
 @custom-variant dark (&:is(.dark *));
-
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.imgDark {
-  display: none;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  .imgLight {
-    display: none;
-  }
-  .imgDark {
-    display: unset;
-  }
-}
 
 @theme inline {
   --font-heading: var(--font-sans);
@@ -79,75 +54,162 @@ a {
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* SidebarRail and SidebarGroupLabel reach for this by name. */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-skeleton: skeleton 2s -1s infinite linear;
+  @keyframes skeleton {
+    to {
+      background-position: -200% 0;
+    }
+  }
 }
 
+/* Warm palette — light */
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --radius: 0.5rem;
+
+  --theme-bg: #f7f7f4;
+  --theme-text: #14120b;
+  --theme-text-sec: #8e8d88;
+  --theme-card-hex: #ffffff;
+
+  --background: var(--theme-bg);
+  --foreground: var(--theme-text);
+
+  --card: var(--theme-card-hex);
+  --card-foreground: var(--theme-text);
+
+  --popover: var(--theme-card-hex);
+  --popover-foreground: var(--theme-text);
+
+  --primary: var(--theme-text);
+  --primary-foreground: var(--theme-bg);
+
+  --secondary: #efeeea;
+  --secondary-foreground: var(--theme-text);
+
+  --muted: #efeeea;
+  --muted-foreground: var(--theme-text-sec);
+
+  --accent: #efeeea;
+  --accent-foreground: var(--theme-text);
+
+  --destructive: hsl(0 84% 60%);
+  --destructive-foreground: #ffffff;
+
+  --border: #e6e4dd;
+  --input: #e6e4dd;
+  --ring: var(--theme-text);
+
+  --chart-1: var(--theme-text);
+  --chart-2: hsl(217 91% 60%);
+  --chart-3: hsl(158 74% 38%);
+  --chart-4: hsl(25 95% 53%);
+  --chart-5: hsl(330 81% 60%);
+
+  --sidebar: var(--theme-card-hex);
+  --sidebar-foreground: var(--theme-text);
+  --sidebar-primary: var(--theme-text);
+  --sidebar-primary-foreground: var(--theme-bg);
+  --sidebar-accent: #efeeea;
+  --sidebar-accent-foreground: var(--theme-text);
+  --sidebar-border: #e6e4dd;
+  --sidebar-ring: var(--theme-text);
+
+  color-scheme: light;
 }
 
+/*
+ * Warm palette — dark. Nothing adds the `.dark` class yet (no theme toggle
+ * ships), so this is currently unreachable. It is kept in step with the light
+ * block so wiring next-themes later is a layout change and nothing more.
+ */
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --theme-bg: #14120b;
+  --theme-text: #f7f7f4;
+  --theme-text-sec: #8e8d88;
+  --theme-card-hex: #1c1a11;
+
+  --background: var(--theme-bg);
+  --foreground: var(--theme-text);
+
+  --card: var(--theme-card-hex);
+  --card-foreground: var(--theme-text);
+
+  --popover: var(--theme-card-hex);
+  --popover-foreground: var(--theme-text);
+
+  --primary: var(--theme-text);
+  --primary-foreground: var(--theme-bg);
+
+  --secondary: var(--theme-card-hex);
+  --secondary-foreground: var(--theme-text);
+
+  --muted: var(--theme-card-hex);
+  --muted-foreground: var(--theme-text-sec);
+
+  --accent: #26241a;
+  --accent-foreground: var(--theme-text);
+
+  --destructive: hsl(0 84% 65%);
+  --destructive-foreground: #ffffff;
+
+  --border: #2a2820;
+  --input: #2a2820;
+  --ring: var(--theme-text);
+
+  --chart-1: var(--theme-text);
+  --chart-2: hsl(217 91% 65%);
+  --chart-3: hsl(158 64% 52%);
+  --chart-4: hsl(28 90% 60%);
+  --chart-5: hsl(330 81% 65%);
+
+  --sidebar: var(--theme-card-hex);
+  --sidebar-foreground: var(--theme-text);
+  --sidebar-primary: var(--theme-text);
+  --sidebar-primary-foreground: var(--theme-bg);
+  --sidebar-accent: #26241a;
+  --sidebar-accent-foreground: var(--theme-text);
+  --sidebar-border: #2a2820;
+  --sidebar-ring: var(--theme-text);
+
+  color-scheme: dark;
+}
+
+/*
+ * Motion, layer 1: duration and easing tokens. Layer 2 is the Framer preset
+ * table in `@repo/ui/lib/motion/presets`, pinned to `subtle` by
+ * `useMotionConfig`. These numbers are that preset's — keep the two in step.
+ */
+:root {
+  --motion-fast: 120ms;
+  --motion-base: 200ms;
+  --motion-slow: 300ms;
+  --motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/*
+ * shadcn's sidebar hardcodes `duration-200 ease-in-out` across its gap,
+ * container, rail, group label and menu button. Every one of those parts
+ * carries a `data-slot="sidebar-*"` attribute, and Tailwind utilities live in
+ * `@layer utilities` while this rule is unlayered — so this wins, and
+ * `ui/sidebar.tsx` can stay unforked. Do not move it into a layer.
+ */
+[data-slot^="sidebar"] {
+  transition-duration: var(--motion-base);
+  transition-timing-function: var(--motion-ease);
+}
+
+/* The OS setting always wins. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-fast: 0ms;
+    --motion-base: 0ms;
+    --motion-slow: 0ms;
+    --motion-ease: linear;
+  }
 }
 
 @layer base {
@@ -159,5 +221,17 @@ a {
   }
   html {
     @apply font-sans;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
