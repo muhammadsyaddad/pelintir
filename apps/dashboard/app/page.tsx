@@ -18,7 +18,7 @@ export default function Page() {
       <AppSidebar activeId={activeId} onSelectNode={setActiveId} />
       {/* min-w-0, or a long name in the pane pushes the inset past the viewport. */}
       <SidebarInset className="min-w-0">
-        <header className="flex h-12 shrink-0 items-center gap-2 border-b px-3">
+        <header className="flex h-12 shrink-0 items-center gap-2 px-3">
           <SidebarTrigger />
           <span className="text-sm font-medium">Dasbor internal</span>
         </header>

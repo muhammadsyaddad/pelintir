@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronRight, Folder, FolderOpen } from "lucide-react";
 import { cn } from "../lib/utils";
-import { Collapsible, CollapsibleTrigger } from "../ui/collapsible";
+import { Collapsible } from "../ui/collapsible";
 import {
   ContextMenu,
   ContextMenuContent,

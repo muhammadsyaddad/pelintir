@@ -1,11 +1,7 @@
 "use client";
 
 import * as React from "react";
-import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuTrigger,
-} from "../ui/context-menu";
+import { ContextMenu, ContextMenuContent } from "../ui/context-menu";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +11,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "../ui/sidebar";
-
 import { RootMenuItems } from "./node-context-menu";
 import { SidebarFooterActions } from "./sidebar-footer-actions";
 import { SidebarSearch } from "./sidebar-search";
@@ -116,40 +111,38 @@ export function AppSidebar({
       <TreeUIProvider value={ui}>
         {/* Right-click on empty space creates at the root; so does a drop. */}
         <ContextMenu>
-          <ContextMenuTrigger asChild>
-            <SidebarContent
-              className="px-1.5 py-2"
-              onClick={(e) => {
-                if (e.target === e.currentTarget) selection.clear();
-              }}
-              onDragOver={(e) => {
-                e.preventDefault();
-                e.dataTransfer.dropEffect = "move";
-              }}
-              onDrop={(e) => dnd.onDropFolder(null, e)}
-            >
-              <SidebarGroup className="p-0">
-                <SidebarGroupContent>
-                  {loading && (
-                    <p className="px-2 py-1 text-xs text-muted-foreground">
-                      Memuat…
-                    </p>
-                  )}
-                  {isEmpty && (
-                    <p className="px-2 py-1 text-xs text-muted-foreground">
-                      Belum ada berkas. Klik kanan untuk membuat.
-                    </p>
-                  )}
-                  {query && filterVisible?.size === 0 && (
-                    <p className="px-2 py-1 text-xs text-muted-foreground">
-                      Tidak ada hasil untuk “{query}”.
-                    </p>
-                  )}
-                  <TreeItemList nodes={tree} level={0} />
-                </SidebarGroupContent>
-              </SidebarGroup>
-            </SidebarContent>
-          </ContextMenuTrigger>
+          <SidebarContent
+            className="px-1.5 py-2"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) selection.clear();
+            }}
+            onDragOver={(e) => {
+              e.preventDefault();
+              e.dataTransfer.dropEffect = "move";
+            }}
+            onDrop={(e) => dnd.onDropFolder(null, e)}
+          >
+            <SidebarGroup className="p-0">
+              <SidebarGroupContent>
+                {loading && (
+                  <p className="px-2 py-1 text-xs text-muted-foreground">
+                    Memuat…
+                  </p>
+                )}
+                {isEmpty && (
+                  <p className="px-2 py-1 text-xs text-muted-foreground">
+                    Belum ada berkas. Klik kanan untuk membuat.
+                  </p>
+                )}
+                {query && filterVisible?.size === 0 && (
+                  <p className="px-2 py-1 text-xs text-muted-foreground">
+                    Tidak ada hasil untuk “{query}”.
+                  </p>
+                )}
+                <TreeItemList nodes={tree} level={0} />
+              </SidebarGroupContent>
+            </SidebarGroup>
+          </SidebarContent>
           <ContextMenuContent className="w-52">
             <RootMenuItems />
           </ContextMenuContent>
