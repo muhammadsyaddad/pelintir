@@ -8,12 +8,15 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarRail,
 } from "../ui/sidebar";
 import { RootMenuItems } from "./node-context-menu";
 import { SidebarFooterActions } from "./sidebar-footer-actions";
 import { SidebarSearch } from "./sidebar-search";
+import { SidebarMenu } from "../ui/sidebar";
+import { SidebarMenuItem, SidebarMenuButton } from "../ui/sidebar";
 import { TreeItemList } from "./tree-item";
 import { TreeUIProvider, type TreeUI } from "./tree-ui-context";
 import { useTreeAdapter } from "./tree-provider";
@@ -24,6 +27,7 @@ import { useTreeSelection } from "../hooks/use-tree-selection";
 import { buildVisibleOrder } from "../lib/tree/build-tree";
 import { filterNodes } from "../lib/tree/filter";
 import type { NodeKind } from "../lib/tree/types";
+import { navigationData } from "../lib/constant";
 
 // `onSelect` is deliberately not the prop name: it collides with the DOM
 // handler that ComponentProps<typeof Sidebar> already carries.
@@ -48,6 +52,18 @@ export function AppSidebar({
     () => (nodes ? filterNodes(nodes, query) : null),
     [nodes, query],
   );
+  const filteredNav = React.useMemo(() => {
+    if (!query) return navigationData;
+    return navigationData
+      .map((group) => ({
+        ...group,
+        items: group.items.filter((item) =>
+          item.name.toLowerCase().includes(query.toLowerCase()),
+        ),
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [query]);
+
   const filterVisible = filter?.visible ?? null;
   const visibleOrder = React.useMemo(
     () => buildVisibleOrder(tree, filterVisible),
@@ -111,37 +127,46 @@ export function AppSidebar({
       <TreeUIProvider value={ui}>
         {/* Right-click on empty space creates at the root; so does a drop. */}
         <ContextMenu>
-          <SidebarContent
-            className="px-1.5 py-2"
-            onClick={(e) => {
-              if (e.target === e.currentTarget) selection.clear();
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-              e.dataTransfer.dropEffect = "move";
-            }}
-            onDrop={(e) => dnd.onDropFolder(null, e)}
-          >
-            <SidebarGroup className="p-0">
-              <SidebarGroupContent>
-                {loading && (
-                  <p className="px-2 py-1 text-xs text-muted-foreground">
-                    Memuat…
-                  </p>
-                )}
-                {isEmpty && (
-                  <p className="px-2 py-1 text-xs text-muted-foreground">
-                    Belum ada berkas. Klik kanan untuk membuat.
-                  </p>
-                )}
-                {query && filterVisible?.size === 0 && (
-                  <p className="px-2 py-1 text-xs text-muted-foreground">
-                    Tidak ada hasil untuk “{query}”.
-                  </p>
-                )}
-                <TreeItemList nodes={tree} level={0} />
-              </SidebarGroupContent>
-            </SidebarGroup>
+          <SidebarContent className="px-1.5 py-2">
+            {filteredNav.length === 0 ? (
+              <p className="px-2 py-1 text-xs text-muted-foreground">
+                Tidak ada hasil untuk “{query}”.
+              </p>
+            ) : (
+              filteredNav.map((group) => (
+                <SidebarGroup key={group.id} className="p-0 mb-3">
+                  {/* Jika group memiliki title, tampilkan sebagai Label Grouped */}
+                  {group.title && (
+                    <SidebarGroupLabel className="px-2 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+                      {group.title}
+                    </SidebarGroupLabel>
+                  )}
+                  <SidebarGroupContent>
+                    <SidebarMenu className="gap-0.5">
+                      {group.items.map((item: NavSubPage) => {
+                        const Icon = item.icon || FileText;
+                        const isActive = activeId === item.id;
+
+                        return (
+                          <SidebarMenuItem key={item.id}>
+                            <SidebarMenuButton
+                              isActive={isActive}
+                              onClick={() => onSelect(item.id)}
+                              className="h-8 gap-2 rounded-md px-2 text-xs font-normal"
+                            >
+                              <Icon className="size-4 shrink-0 opacity-70" />
+                              <span className="truncate">{item.name}</span>
+                            </SidebarMenuButton>
+
+                            {/*<TreeItemList nodes={tree} level={0} />*/}
+                          </SidebarMenuItem>
+                        );
+                      })}
+                    </SidebarMenu>
+                  </SidebarGroupContent>
+                </SidebarGroup>
+              ))
+            )}
           </SidebarContent>
           <ContextMenuContent className="w-52">
             <RootMenuItems />
