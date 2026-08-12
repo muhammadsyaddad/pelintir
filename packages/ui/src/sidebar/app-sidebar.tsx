@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useRouter, usePathname } from "next/navigation";
 import { ContextMenu, ContextMenuContent } from "../ui/context-menu";
 import {
   Sidebar,
@@ -23,18 +22,20 @@ import { useTreeSelection } from "../hooks/use-tree-selection";
 import { buildVisibleOrder } from "../lib/tree/build-tree";
 import { filterNodes } from "../lib/tree/filter";
 import type { NodeKind } from "../lib/tree/types";
-import { navigationData } from "../lib/constant";
+import type { NavGroup } from "../lib/constant";
 
 // `onSelect` is deliberately not the prop name: it collides with the DOM
 // handler that ComponentProps<typeof Sidebar> already carries.
 type AppSidebarProps = React.ComponentProps<typeof Sidebar> & {
   activeId: string | null;
   onSelectNode: (id: string) => void;
+  navigationData: NavGroup[];
 };
 
 export function AppSidebar({
   activeId,
   onSelectNode: onSelect,
+  navigationData,
   ...props
 }: AppSidebarProps) {
   const adapter = useTreeAdapter();
@@ -58,7 +59,7 @@ export function AppSidebar({
         ),
       }))
       .filter((group) => group.items.length > 0);
-  }, [query]);
+  }, [query, navigationData]);
 
   const filterVisible = filter?.visible ?? null;
   const visibleOrder = React.useMemo(

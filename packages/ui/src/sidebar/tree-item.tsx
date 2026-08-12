@@ -2,6 +2,7 @@
 
 import { AnimatePresence } from "framer-motion";
 import { SidebarMenu } from "../ui/sidebar";
+import Link from "next/link";
 
 import { FileLeaf } from "./file-leaf";
 import { FolderItem } from "./folder-item";
@@ -71,18 +72,21 @@ export function TreeItemList({
             <SidebarGroupContent>
               <SidebarMenu className="gap-0.5">
                 {group.items.map((item: NavSubPage) => {
-                  const Icon = item.icon || FileText;
+                  const Icon = item.icon;
                   const isActive = activeId === item.id;
 
                   return (
                     <SidebarMenuItem key={item.id}>
                       <SidebarMenuButton
+                        asChild
                         isActive={isActive}
                         onClick={() => onSelect?.(item.id)}
                         className="h-8 gap-2 rounded-md px-2 text-xs font-normal"
                       >
-                        <Icon className="size-4 shrink-0 opacity-70" />
-                        <span className="truncate">{item.name}</span>
+                        <Link href={item.path}>
+                          <Icon className="size-4 shrink-0 opacity-70" />
+                          <span className="truncate">{item.name}</span>
+                        </Link>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
                   );

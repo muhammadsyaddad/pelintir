@@ -19,7 +19,7 @@ import type { TreeNode } from "../lib/tree/types";
 export interface NavSubPage {
   id: string;
   name: string;
-  icon?: any;
+  icon?: string;
 }
 
 /** Dispatcher. Filtered-out nodes render nothing at all. */
