@@ -1,22 +1,18 @@
 "use client";
 
 import * as React from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { ContextMenu, ContextMenuContent } from "../ui/context-menu";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarRail,
 } from "../ui/sidebar";
 import { RootMenuItems } from "./node-context-menu";
 import { SidebarFooterActions } from "./sidebar-footer-actions";
 import { SidebarSearch } from "./sidebar-search";
-import { SidebarMenu } from "../ui/sidebar";
-import { SidebarMenuItem, SidebarMenuButton } from "../ui/sidebar";
 import { TreeItemList } from "./tree-item";
 import { TreeUIProvider, type TreeUI } from "./tree-ui-context";
 import { useTreeAdapter } from "./tree-provider";
@@ -42,7 +38,7 @@ export function AppSidebar({
   ...props
 }: AppSidebarProps) {
   const adapter = useTreeAdapter();
-  const { nodes, tree, loading } = useTree();
+  const { nodes, tree } = useTree();
   const motion = useMotionConfig();
 
   const [query, setQuery] = React.useState("");
@@ -114,8 +110,6 @@ export function AppSidebar({
     ],
   );
 
-  const isEmpty = !loading && tree.length === 0;
-
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader className="p-[9.5px]">
@@ -128,45 +122,13 @@ export function AppSidebar({
         {/* Right-click on empty space creates at the root; so does a drop. */}
         <ContextMenu>
           <SidebarContent className="px-1.5 py-2">
-            {filteredNav.length === 0 ? (
-              <p className="px-2 py-1 text-xs text-muted-foreground">
-                Tidak ada hasil untuk “{query}”.
-              </p>
-            ) : (
-              filteredNav.map((group) => (
-                <SidebarGroup key={group.id} className="p-0 mb-3">
-                  {/* Jika group memiliki title, tampilkan sebagai Label Grouped */}
-                  {group.title && (
-                    <SidebarGroupLabel className="px-2 text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
-                      {group.title}
-                    </SidebarGroupLabel>
-                  )}
-                  <SidebarGroupContent>
-                    <SidebarMenu className="gap-0.5">
-                      {group.items.map((item: NavSubPage) => {
-                        const Icon = item.icon || FileText;
-                        const isActive = activeId === item.id;
-
-                        return (
-                          <SidebarMenuItem key={item.id}>
-                            <SidebarMenuButton
-                              isActive={isActive}
-                              onClick={() => onSelect(item.id)}
-                              className="h-8 gap-2 rounded-md px-2 text-xs font-normal"
-                            >
-                              <Icon className="size-4 shrink-0 opacity-70" />
-                              <span className="truncate">{item.name}</span>
-                            </SidebarMenuButton>
-
-                            {/*<TreeItemList nodes={tree} level={0} />*/}
-                          </SidebarMenuItem>
-                        );
-                      })}
-                    </SidebarMenu>
-                  </SidebarGroupContent>
-                </SidebarGroup>
-              ))
-            )}
+            <TreeItemList
+              nodes={tree}
+              level={0}
+              filteredNav={filteredNav}
+              query={query}
+              onSelect={onSelect}
+            />
           </SidebarContent>
           <ContextMenuContent className="w-52">
             <RootMenuItems />

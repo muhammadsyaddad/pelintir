@@ -20,7 +20,7 @@ export default function Page() {
       <SidebarInset className="min-w-0">
         <header className="flex h-12 shrink-0 items-center gap-2 px-3">
           <SidebarTrigger />
-          <span className="text-sm font-medium">Dasbor internal</span>
+          {/*<span className="text-sm font-medium">Dasbor internal</span>*/}
         </header>
         <div className="flex-1 overflow-y-auto p-4">
           <p className="text-sm text-muted-foreground">

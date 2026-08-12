@@ -1,25 +1,32 @@
 "use client";
 
 import { AnimatePresence } from "framer-motion";
-import { SidebarMenu } from "../ui/sidebar";
+import { FileText } from "lucide-react";
+import {
+  SidebarMenu,
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarGroupContent,
+  SidebarMenuItem,
+  SidebarMenuButton,
+} from "../ui/sidebar";
 
 import { FileLeaf } from "./file-leaf";
 import { FolderItem } from "./folder-item";
 import { useTreeUI } from "./tree-ui-context";
 import type { TreeNode } from "../lib/tree/types";
-import { NavSubPage } from "../lib/constant";
-import {
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarMenuItem,
-  SidebarMenuButton,
-  SidebarGroupLabel,
-} from "../ui/sidebar";
+
+export interface NavSubPage {
+  id: string;
+  name: string;
+  icon?: any;
+}
 
 /** Dispatcher. Filtered-out nodes render nothing at all. */
 export function TreeItem({ node, level }: { node: TreeNode; level: number }) {
   const { filterVisible } = useTreeUI();
   if (filterVisible && !filterVisible.has(node.id)) return null;
+
   return node.kind === "file" ? (
     <FileLeaf node={node} level={level} />
   ) : (
@@ -35,6 +42,7 @@ export function TreeItemList({
   nodes,
   level,
   className,
+  // Props baru untuk keperluan filteredNav
   filteredNav,
   query,
   activeId,
@@ -43,12 +51,11 @@ export function TreeItemList({
   nodes: TreeNode[];
   level: number;
   className?: string;
-  filteredNav?: any[];
+  filteredNav?: string;
   query?: string;
   activeId?: string;
   onSelect?: (id: string) => void;
 }) {
-  // Jika komponen dipanggil dengan filteredNav (biasanya di root layout), render navigasi sesuai dengan desain asal Anda
   if (filteredNav && level === 0) {
     if (filteredNav.length === 0) {
       return (
@@ -84,6 +91,9 @@ export function TreeItemList({
                         <Icon className="size-4 shrink-0 opacity-70" />
                         <span className="truncate">{item.name}</span>
                       </SidebarMenuButton>
+
+                      {/* TreeItemList dipanggil kembali (seperti di struktur asli Anda) tanpa filteredNav untuk merender tree */}
+                      <TreeItemList nodes={nodes} level={0} />
                     </SidebarMenuItem>
                   );
                 })}
@@ -95,6 +105,7 @@ export function TreeItemList({
     );
   }
 
+  // Render default rekursif khusus untuk node (Folder / File)
   return (
     <SidebarMenu className={className ?? "gap-0"}>
       <AnimatePresence initial={false}>

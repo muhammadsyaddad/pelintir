@@ -16,6 +16,7 @@ import { RenameInput } from "./rename-input";
 import { TreeItemList } from "./tree-item";
 import { useTreeUI } from "./tree-ui-context";
 import type { TreeNode } from "../lib/tree/types";
+import { CollapsibleTrigger } from "../ui/collapsible";
 
 export function FolderItem({ node, level }: { node: TreeNode; level: number }) {
   const {

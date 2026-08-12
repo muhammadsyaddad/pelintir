@@ -6,7 +6,6 @@ import {
   Folder,
   User,
   Shield,
-  HelpCircle,
 } from "lucide-react";
 
 export interface NavSubPage {
@@ -14,6 +13,7 @@ export interface NavSubPage {
   name: string;
   icon?: LucideIcon;
   href?: string;
+  path?: string;
 }
 
 export interface NavGroup {
@@ -27,7 +27,12 @@ export const navigationData: NavGroup[] = [
     // UNGROUPED: Langsung muncul di bagian atas tanpa label grup
     id: "main-ungrouped",
     items: [
-      { id: "dashboard", name: "Beranda Utama", icon: Home },
+      {
+        id: "dashboard",
+        name: "Beranda Utama",
+        icon: Home,
+        path: "/dashboard/page.tsx",
+      },
       { id: "overview", name: "Ikhtisar Proyek", icon: FileText },
     ],
   },
@@ -48,7 +53,6 @@ export const navigationData: NavGroup[] = [
       { id: "profile", name: "Profil Pengguna", icon: User },
       { id: "security", name: "Keamanan", icon: Shield },
       { id: "general-settings", name: "Pengaturan Umum", icon: Settings },
-      { id: "help", name: "Pusat Bantuan", icon: HelpCircle },
     ],
   },
 ];

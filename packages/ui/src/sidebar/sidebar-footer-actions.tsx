@@ -8,7 +8,7 @@ export function SidebarFooterActions() {
   return (
     <div className="flex items-center justify-between gap-2">
       <span className="px-1 text-[11px] text-muted-foreground">
-        Dasbor internal
+        {/*Dasbor internal*/}
       </span>
     </div>
   );
