@@ -64,14 +64,14 @@ never made twice. A system with no return arrow is a dashboard, not a project �
 
 ## Workspaces
 
-| Workspace | Runtime | Port | Role |
-|---|---|---|---|
-| `apps/web` | Next.js 16 / React 19 | 3000 | **Public site.** National overview, agency profile, vendor profile, package detail. Every string Indonesian and bound by [`editorial-policy.md`](editorial-policy.md). |
-| `apps/dashboard` | Next.js 16 / React 19 | 3001 | **Internal admin.** Normalisation correction queue, vendor alias merges, report triage. Not public — but assume screenshots leak. |
-| `apps/api` | Python 3.12 / FastAPI | 8000 | Read API for both frontends; write endpoints for dashboard actions and public reports. |
-| `packages/pipeline` | Python 3.12 | — | Ingest, normalise, benchmark. Batch, not a service. |
-| `packages/ui` | React | — | Components shared by both Next apps. |
-| `packages/eslint-config`, `packages/typescript-config` | — | — | Shared configuration. |
+| Workspace                                              | Runtime               | Port | Role                                                                                                                                                                   |
+| ------------------------------------------------------ | --------------------- | ---- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `apps/web`                                             | Next.js 16 / React 19 | 3000 | **Public site.** National overview, agency profile, vendor profile, package detail. Every string Indonesian and bound by [`editorial-policy.md`](editorial-policy.md). |
+| `apps/dashboard`                                       | Next.js 16 / React 19 | 3001 | **Internal admin.** Normalisation correction queue, vendor alias merges, report triage. Not public — but assume screenshots leak.                                      |
+| `apps/api`                                             | Python 3.12 / FastAPI | 8000 | Read API for both frontends; write endpoints for dashboard actions and public reports.                                                                                 |
+| `packages/pipeline`                                    | Python 3.12           | —    | Ingest, normalise, benchmark. Batch, not a service.                                                                                                                    |
+| `packages/ui`                                          | React                 | —    | Components shared by both Next apps.                                                                                                                                   |
+| `packages/eslint-config`, `packages/typescript-config` | —                     | —    | Shared configuration.                                                                                                                                                  |
 
 Two package managers by design: **bun** for the TypeScript workspaces, **uv** for the two Python ones, each
 with its own committed lockfile. Rationale in
@@ -85,11 +85,11 @@ run its tasks; `packages/pipeline` currently lacks one, which is why turbo canno
 
 Rationale in [ADR-0005](adr/0005-storage-duckdb-postgres-meili.md).
 
-| Engine | Role | Why not one of the others |
-|---|---|---|
-| **Parquet + DuckDB** | Analytical. Raw ingested data and benchmark computation over millions of rows. | Column-oriented aggregation over the whole corpus is what DuckDB is for. Doing it in Postgres means loading everything first. |
-| **Postgres** | Application state. Resolved entities, aliases, normalisation decisions, users, reports, flags. | Needs transactions, constraints, concurrent writes from the dashboard — none of which DuckDB provides. |
-| **Meilisearch** | Search. Typo-tolerant lookup across agency, vendor, and package names. | Indonesian procurement names are inconsistently spelled; users will not type them exactly. Postgres full-text does not tolerate that well. |
+| Engine               | Role                                                                                           | Why not one of the others                                                                                                                  |
+| -------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Parquet + DuckDB** | Analytical. Raw ingested data and benchmark computation over millions of rows.                 | Column-oriented aggregation over the whole corpus is what DuckDB is for. Doing it in Postgres means loading everything first.              |
+| **Postgres**         | Application state. Resolved entities, aliases, normalisation decisions, users, reports, flags. | Needs transactions, constraints, concurrent writes from the dashboard — none of which DuckDB provides.                                     |
+| **Meilisearch**      | Search. Typo-tolerant lookup across agency, vendor, and package names.                         | Indonesian procurement names are inconsistently spelled; users will not type them exactly. Postgres full-text does not tolerate that well. |
 
 The split follows the read pattern: batch analytics write Parquet; the app reads Postgres; users search
 Meilisearch. Conflating them would mean either an analytics engine handling transactions or a transactional

@@ -3,6 +3,7 @@
 import { AnimatePresence } from "framer-motion";
 import { SidebarMenu } from "../ui/sidebar";
 import Link from "next/link";
+import { File } from "lucide-react";
 
 import { FileLeaf } from "./file-leaf";
 import { FolderItem } from "./folder-item";
@@ -72,7 +73,7 @@ export function TreeItemList({
             <SidebarGroupContent>
               <SidebarMenu className="gap-0.5">
                 {group.items.map((item: NavSubPage) => {
-                  const Icon = item.icon;
+                  const Icon = item.icon ?? File;
                   const isActive = activeId === item.id;
 
                   return (

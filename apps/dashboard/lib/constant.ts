@@ -1,12 +1,4 @@
-import {
-  LucideIcon,
-  FileText,
-  Home,
-  Settings,
-  Folder,
-  User,
-  Shield,
-} from "lucide-react";
+import { LucideIcon, FileText, Home } from "lucide-react";
 
 export interface NavSubPage {
   id: string;
